@@ -1,17 +1,18 @@
 var app = require("express")();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
+var cors = require('cors');
 
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/index.html");
-});
+app.use(cors());
 
-io.on("connection", function(socket) {
-  socket.on("chat message", function(msg) {
-    io.emit("chat message", msg);
+io.on('connection', socket => {
+  socket.on('room', room => {
+    console.log('rooms', socket.rooms);
+    socket.join(room);
+    io.in(room).emit('message', `whats up dawwwgs in ${room}`);
   });
 });
 
-http.listen(3000, function() {
-  console.log("listening on *:3000");
+http.listen(8080, function() {
+  console.log("listening on *:8080");
 });
