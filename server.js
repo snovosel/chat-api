@@ -7,10 +7,13 @@ app.use(cors());
 
 io.on('connection', socket => {
   socket.on('room', room => {
-    console.log('rooms', socket.rooms);
     socket.join(room);
-    io.in(room).emit('message', `whats up dawwwgs in ${room}`);
+    io.in(room).emit('alert', `whats up dawwwgs in ${room}`);
   });
+});
+
+io.on('message', socket => {
+  console.log('socket', socket);
 });
 
 http.listen(8080, function() {
