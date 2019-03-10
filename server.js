@@ -18,11 +18,6 @@ io.on('connection', socket => {
     console.log('joining room....' + room);
     socket.join(room);
   });
-
-  // disconnect from socket
-  socket.on('disconnect', data => {
-    console.log('user has disconnected', data);
-  });
 });
 
 http.listen(8080, function() {
