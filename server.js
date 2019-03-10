@@ -5,15 +5,24 @@ var cors = require('cors');
 
 app.use(cors());
 
+// socket connection
 io.on('connection', socket => {
-  socket.on('room', room => {
-    socket.join(room);
-    io.in(room).emit('alert', `whats up dawwwgs in ${room}`);
+  // broadcast any message sent through the socket
+  socket.on('message', data => {
+    console.log('message received', data);
+    io.emit('message', data);
   });
-});
 
-io.on('message', socket => {
-  console.log('socket', socket);
+  // join a room
+  socket.on('room', room => {
+    console.log('joining room....');
+    socket.join(room);
+  });
+
+  // disconnect from socket
+  socket.on('disconnect', data => {
+    console.log('user has disconnected', data);
+  });
 });
 
 http.listen(8080, function() {
