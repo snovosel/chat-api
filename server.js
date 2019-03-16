@@ -23,8 +23,9 @@ io.on("connection", socket => {
   // join a room
   socket.on("room", room => {
     socket.join(room);
-    console.log("ON JOIN", lastFiveMessages);
-    socket.emit("join", lastFiveMessages);
+    // console.log("ON JOIN", lastFiveMessages);
+    // socket.emit("join", lastFiveMessages);
+    socket.emit("join");
   });
 
   socket.on("leave", room => {
