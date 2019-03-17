@@ -1,68 +1,30 @@
-var app = require("express")();
-var http = require("http").Server(app);
-var io = require("socket.io")(http);
-var mongoose = require("mongoose");
+const express = require("express");
+const bodyParser = require("body-parser");
+// var http = require("http").Server(app);
 
-// db connection -------------------------------------------------------
+const app = express();
 
-mongoose.connect(
-  "mongodb+srv://snovosel:Flwr1281!@psst-ombxx.mongodb.net/test?retryWrites=true",
-  { useNewUrlParser: true },
-  err => {
-    if (err) {
-      console.log("Some problem with the connection " + err);
-    } else {
-      console.log("The Mongoose connection is ready");
-    }
-  }
-);
+// var { socket } = require("./socket.js");
+// var { connectDb } = require("./dbConfig.js");
 
-//Get the default connection
-let db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+// socket(http);
+// connectDb();
 
-// models -----------------------------------------------------
+// for ability to read from body
+app.use(bodyParser.urlencoded({ extended: true }));
+// parse application/json
+app.use(bodyParser.json());
 
-//Require Mongoose
-var mongoose = require("mongoose");
-
-//Define a schema
-var Schema = mongoose.Schema;
-
-var UserSchema = new Schema({
-  user_name: { type: String, required: true, max: 100 }
+app.get("/", (req, res) => {
+  console.log("get");
 });
 
-const User = mongoose.model("User", UserSchema);
-
-// ------ web socket ------------------------
-
-io.on("connection", socket => {
-  socket.on("room", ({ room, name }) => {
-    let user = new User({ user_name: name });
-    const findUser = async function(params) {
-      try {
-        return await User.find(params);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    const users = findUser();
-    console.log("users", users);
-    socket.join(room);
-    socket.emit("join");
-  });
-
-  socket.on("message", ({ room, ...restData }) => {
-    io.sockets.in(room).emit("message", restData);
-  });
-
-  socket.on("leave", room => {
-    socket.leave(room);
-  });
+app.post("/", (req, res) => {
+  console.log("req body", req.body);
 });
 
-http.listen(8080, function() {
-  console.log("listening on *:8080");
-});
+app.listen("8080", () => console.log(`Example app listening on port 8080!`));
+
+// http.listen(8080, function() {
+//   console.log("listening on *:8080");
+// });
