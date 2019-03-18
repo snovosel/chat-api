@@ -5,13 +5,19 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon --exec babel-node server.js"
   },
   "author": "Steve Novosel",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4",
     "mongoose": "^5.4.19",
     "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "nodemon": "^1.18.10"
   }
 }

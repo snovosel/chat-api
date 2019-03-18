@@ -1,30 +1,13 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-// var http = require("http").Server(app);
+const http = require("http").Server();
+const io = require("socket.io")(http);
 
-const app = express();
+const { startSocket } = require("./socket.js");
+const { connectDb } = require("./dbConfig.js");
 
-// var { socket } = require("./socket.js");
-// var { connectDb } = require("./dbConfig.js");
+// new socket(io);
+startSocket(io);
+connectDb();
 
-// socket(http);
-// connectDb();
-
-// for ability to read from body
-app.use(bodyParser.urlencoded({ extended: true }));
-// parse application/json
-app.use(bodyParser.json());
-
-app.get("/", (req, res) => {
-  console.log("get");
+http.listen(8080, function() {
+  console.log("listening on *:8080");
 });
-
-app.post("/", (req, res) => {
-  console.log("req body", req.body);
-});
-
-app.listen("8080", () => console.log(`Example app listening on port 8080!`));
-
-// http.listen(8080, function() {
-//   console.log("listening on *:8080");
-// });
