@@ -1,8 +1,10 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var Schema = mongoose.Schema;
-var UserSchema = new Schema({
+const Schema = mongoose.Schema;
+const UserSchema = new Schema({
   user_name: { type: String, required: true, max: 100 }
 });
 
-exports.User = mongoose.model("User", UserSchema);
+const UserModel = mongoose.model("User", UserSchema);
+
+export default UserModel;
