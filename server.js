@@ -1,13 +1,13 @@
-const http = require("http").Server();
-const io = require("socket.io")(http);
+import http from "http";
 
-const { startSocket } = require("./socket.js");
-const { connectDb } = require("./dbConfig.js");
+import socketListen from "./socket.js";
+import { connectDb } from "./dbConfig.js";
 
-// new socket(io);
-startSocket(io);
-connectDb();
+const server = http.Server();
 
-http.listen(8080, function() {
-  console.log("listening on *:8080");
+connectDb(() => {
+  socketListen(server);
+  server.listen(8080, function() {
+    console.log("listening on *:8080");
+  });
 });

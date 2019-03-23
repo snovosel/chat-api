@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 // db connection -------------------------------------------------------
-exports.connectDb = () => {
+exports.connectDb = callBack => {
   mongoose.connect(
     "mongodb+srv://snovosel:Flwr1281!@psst-ombxx.mongodb.net/test?retryWrites=true",
     { useNewUrlParser: true },
@@ -10,6 +10,7 @@ exports.connectDb = () => {
         console.log("Some problem with the connection " + err);
       } else {
         console.log("The Mongoose connection is ready");
+        callBack();
       }
     }
   );
